@@ -9,7 +9,7 @@
  * 7.) There are 3 task in this that you have to complete. Discuss with your instructor to understand the task.
  */
 
-const myApiKey = ""; // <<-- ADD YOUR API KEY HERE. DELETE THIS KEY before uploading your code on Github or Brightspace, 
+const myApiKey = "ed7dbc28"; // <<-- ADD YOUR API KEY HERE. DELETE THIS KEY before uploading your code on Github or Brightspace, 
 
 const BASE_URL = "http://www.omdbapi.com";
 
@@ -74,7 +74,7 @@ function createHtmlElement(elementName, classNames = [], contentText = '') {
     // step 3: add the content
     htmlElment.innerHTML = contentText;
     return htmlElment;
-}
+} 
 
 
 /**
@@ -126,6 +126,16 @@ async function getMovies(movieTitle) {
              * and call createMovieCard() for each movie object in this array.
              */
 
+            if (filteredMovies.length == 0) {
+                createEmptyView();
+            } else {
+                for (let i = 0; i < filteredMovies.length; i++){
+                    createMovieCard(filteredMovies[i]);
+                }
+            }
+
+
+
         }
     } catch(exception) {
         console.error("Exception occurred in getMovies function.")
@@ -162,15 +172,23 @@ async function checkPosterURL(movie) {
  * 
  *      <p class="noresult">No movie found!!! Please search for another title.</p>
  */
-function createEmptyView() {
-    console.log("createEmptyView");
+
+ function createEmptyView() {
+    console.log("createEmptyView"); 
+    const noResultParagraph = createHtmlElement('p', ['noresult'], 'No movie found!!! Please search for another title.');
+
+    movieCardsSection = document.getElementById('movieCards');
+    movieCardsSection.appendChild(noResultParagraph)
+ }
+
+ 
 
     /**
      * TASK : 2
      * Create empty view and append it to "movieCards" section.
      */
 
-}
+
 
 /**
  * Create a movie card using the parameter. The card should have movie title and poster. The card should follow below structure:
@@ -187,9 +205,19 @@ function createMovieCard(movie) {
     console.log("createMovieCard");
     console.log(movie);
     
-    /**
-     * TASK : 3
-     * Create Movie Card and append it "movieCards" section.
-     */
+    const movieCard = createHtmlElement('article', ['card']);
+    const cardTitle = createHtmlElement('p', ['cardTitle'], movie.Title);
+    movieCard.appendChild(cardTitle);
+
+    const cardPosterDiv = createHtmlElement('div', ['cardPosterDiv']);
+    const moviePoster = createHtmlElement('img', ['moviePoster']);
+    moviePoster.src = movie.Poster;
+    moviePoster.alt = 'Movie poster';
+
+    cardPosterDiv.appendChild(moviePoster);
+    movieCard.appendChild(cardPosterDiv);
+
+    movieCardsSection = document.getElementById('movieCards');
+    movieCardsSection.appendChild(movieCard);
 
 }
